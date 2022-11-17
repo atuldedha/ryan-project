@@ -18,13 +18,6 @@ function App() {
     const temp = [];
     if (searchLocation.length > 0) {
       console.log(searchLocation);
-      // setCompanyData(
-      //   companyData.filter((item) => {
-      //     console.log(item.location.includes(searchLocation));
-      //     item.location.includes(searchLocation);
-      //   })
-      // );
-
       companyData?.map((item) => {
         if (
           item.location
@@ -36,6 +29,15 @@ function App() {
       });
       console.log(temp);
       setResultData(temp);
+    }
+
+    if (
+      searchLocation.length === 0 &&
+      !javaScriptChecked &&
+      !pythonChecked &&
+      !javaChecked
+    ) {
+      setResultData(companyData);
     }
   };
   return (
