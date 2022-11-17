@@ -9,6 +9,10 @@ function App() {
   const [companyData, setCompanyData] = useState(data);
   const [resultData, setResultData] = useState(data);
 
+  const removeDuplicates = (arr) => {
+    return arr?.filter((v, i, a) => a.findIndex((v2) => v2.id === v.id) === i);
+  };
+
   const handleFilter = (
     searchLocation,
     javaScriptChecked,
@@ -16,8 +20,6 @@ function App() {
     javaChecked
   ) => {
     const temp = [];
-
-    console.log(searchLocation);
     if (searchLocation.length > 0) {
       companyData?.map((item) => {
         if (
@@ -28,9 +30,37 @@ function App() {
           temp.push(item);
         }
       });
-      console.log(temp);
       setResultData(temp);
+    } else if (javaChecked || javaScriptChecked || pythonChecked) {
+      companyData?.map((item) => {
+        if (javaChecked) {
+          item.tags.map((tag) => {
+            if (tag.toLocaleLowerCase() === "java") {
+              temp.push(item);
+            }
+          });
+        }
+        if (pythonChecked) {
+          item.tags.map((tag) => {
+            if (tag.toLocaleLowerCase() === "python") {
+              temp.push(item);
+            }
+          });
+        }
+        if (javaScriptChecked) {
+          item.tags.map((tag) => {
+            if (tag.toLocaleLowerCase() === "javascript") {
+              temp.push(item);
+            }
+          });
+        }
+      });
+      setResultData(removeDuplicates(temp));
     }
+
+    // temp?.map((item) => {
+    //   if(javaScriptChecked){}
+    // })
 
     if (
       searchLocation.length === 0 &&
