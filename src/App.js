@@ -16,8 +16,9 @@ function App() {
     javaChecked
   ) => {
     const temp = [];
+
+    console.log(searchLocation);
     if (searchLocation.length > 0) {
-      console.log(searchLocation);
       companyData?.map((item) => {
         if (
           item.location

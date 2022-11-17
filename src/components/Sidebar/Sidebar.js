@@ -1,5 +1,5 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 const Sidebar = ({ showSidebar, handleFilter }) => {
   const [open, setOpen] = useState(true);
@@ -12,6 +12,25 @@ const Sidebar = ({ showSidebar, handleFilter }) => {
     //API call to be made here with the search term and tags
     handleFilter(searchLocation, javaScriptChecked, pythonChecked, javaChecked);
   };
+
+  const debounce = (func) => {
+    let timer;
+    return function (...args) {
+      const context = this;
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        timer = null;
+        func.apply(context, args);
+      }, 500);
+    };
+  };
+  const handleChange = (value) => {
+    console.log(value);
+    handleFilter(value);
+  };
+
+  const optimizedFn = useCallback(debounce(handleChange), []);
+
   return (
     <div
       className={`${
@@ -22,7 +41,10 @@ const Sidebar = ({ showSidebar, handleFilter }) => {
     >
       <input
         placeholder="enter location"
-        onChange={(e) => setSearchLocation(e.target.value)}
+        onChange={(e) => {
+          setSearchLocation(e.target.value);
+          optimizedFn(e.target.value);
+        }}
         value={searchLocation}
         type="text"
         className="outline-none bg-gray-100 p-3 text-gray-400 placeholder:text-gray-400 rounded-md"
