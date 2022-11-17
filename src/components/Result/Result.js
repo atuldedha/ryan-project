@@ -4,7 +4,7 @@ import data from "./staticData";
 
 const Result = ({ companyData }) => {
   return (
-    <div className="flex flex-col space-y-4 mt-8 mx-4">
+    <div className="flex flex-col space-y-4 mt-8 mx-4 mb-4">
       {companyData?.map((item, index) => (
         <ResultCard
           key={index}
